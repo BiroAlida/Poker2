@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, "Invalid emsil or password", Toast.LENGTH_LONG).show();
                     }
                     else{
-                        startActivity(new Intent(MainActivity.this, SessionActivity.class));
+                        startActivity(new Intent(MainActivity.this, GroupActivity.class));
                         finish();
                     }
                 }
