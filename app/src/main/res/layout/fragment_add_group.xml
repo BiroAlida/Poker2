@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddGroupFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Add new Group"
+        android:textSize="30sp"/>
+
+    <EditText
+        android:id="@+id/editText_groupName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@+id/Title"
+        android:layout_marginTop="40dp"
+        android:inputType="textPersonName"
+        android:hint="Group Name" />
+
+    <Button
+        android:id="@+id/button_addQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_groupName"
+        android:layout_marginTop="80dp"
+        android:text="Add Question" />
+
+    <LinearLayout
+        android:id="@+id/questionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_addQuestion"
+        android:layout_marginTop="130dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+       />
+
+    <Button
+        android:id="@+id/button_addGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add group"
+        android:layout_below="@+id/button_addQuestion"
+        android:layout_marginTop="200dp"
+        />
+
+</FrameLayout>

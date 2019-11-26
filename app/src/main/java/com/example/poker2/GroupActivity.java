@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,21 +22,26 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, View.OnClickListener {
+import static android.app.PendingIntent.getActivity;
+
+public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, AddGroupFragment.OnFragmentInteractionListener{
 
     private String currentUserId;
     private DatabaseReference database;
     private ArrayList<String> userList = new ArrayList<>();
     private FirebaseCallback callback;
     private int userType;
-    private Button addGroup;
+
+    private RecyclerView rw;
+    private ArrayList<Group> list;
+    private ListingGroupsAdapter adapter;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
 
-        addGroup = findViewById(R.id.button_AddGroup);
-        addGroup.setOnClickListener(this);
 
         readCurrentUserData(new FirebaseCallback() {  // calling the readCurrentUserData function and passing an instance of my FirebaseCallback interface as an argument
             @Override
@@ -43,6 +50,8 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
                 if (userType == 1) {
 
                     loadFragment(new AdminFragment()); // if usertype == 1 (admin) than we load the appropriate fragment
+
+
 
                 }
 
@@ -87,10 +96,6 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     private interface FirebaseCallback{  // ez szol a tobbi resznek h megvan a user es => csak akkor nezi meg a typet ha megvan hogy ki a bejelntkezett user (a user nullobjectkent vetelenek elkerulese)
         void onCallback(User user);   // custom callback that waits for the data
@@ -100,6 +105,13 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container,fragment);
         fragmentTransaction.addToBackStack(null); //By calling addToBackStack(), the replace transaction is saved to the back stack so the user can reverse the transaction and bring back the previous fragment by pressing the Back button.
+        fragmentTransaction.commit();
+    }
+
+    public void replaceFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
