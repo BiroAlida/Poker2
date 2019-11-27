@@ -2,17 +2,16 @@ package com.example.poker2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
+import com.example.poker2.Fragments.AddGroupFragment;
+import com.example.poker2.Fragments.AdminFragment;
+import com.example.poker2.Fragments.JoinGroupFragment;
+import com.example.poker2.Fragments.UserFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
 
-public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, AddGroupFragment.OnFragmentInteractionListener{
+public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, AddGroupFragment.OnFragmentInteractionListener, JoinGroupFragment.OnFragmentInteractionListener {
 
     private String currentUserId;
     private DatabaseReference database;
@@ -50,7 +49,6 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
                 if (userType == 1) {
 
                     loadFragment(new AdminFragment()); // if usertype == 1 (admin) than we load the appropriate fragment
-
 
 
                 }

@@ -1,4 +1,4 @@
-package com.example.poker2;
+package com.example.poker2.Fragments;
 
 import android.content.Context;
 import android.net.Uri;

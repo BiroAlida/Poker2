@@ -1,6 +1,5 @@
-package com.example.poker2;
+package com.example.poker2.Fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.poker2.GroupActivity;
+import com.example.poker2.R;
 
 
 public class AdminFragment extends Fragment implements View.OnClickListener {

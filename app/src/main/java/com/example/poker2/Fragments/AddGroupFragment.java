@@ -1,4 +1,4 @@
-package com.example.poker2;
+package com.example.poker2.Fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,6 +22,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.poker2.Group;
+import com.example.poker2.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
