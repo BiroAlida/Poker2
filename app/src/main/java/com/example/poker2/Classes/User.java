@@ -1,4 +1,4 @@
-package com.example.poker2;
+package com.example.poker2.Classes;
 
 public class User {
 

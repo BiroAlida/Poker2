@@ -1,4 +1,4 @@
-package com.example.poker2;
+package com.example.poker2.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +9,10 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.poker2.R;
+import com.example.poker2.Classes.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -100,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                Intent loginIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(loginIntent);
                             }
                             else

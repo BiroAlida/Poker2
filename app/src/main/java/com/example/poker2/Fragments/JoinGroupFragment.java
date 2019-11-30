@@ -1,112 +1,205 @@
 package com.example.poker2.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.poker2.Activities.GroupActivity;
+import com.example.poker2.Classes.Group;
+import com.example.poker2.Classes.Question;
+import com.example.poker2.Classes.User;
 import com.example.poker2.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link JoinGroupFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link JoinGroupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class JoinGroupFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class JoinGroupFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private View view;
+    private String groupId;
+    private TextView tv;
+    private  int response;
+    private Question questionObject;
+    private Button btnSend, btn1,btn2,btn3,btn4,btn5, btnEvaluate;
+    private String username;
+    private String activeQuestion = "t";
+    private int chosenButton = 0;
+    private DatabaseReference responsesReference;
+    private String currentQuestionId;
 
-    private OnFragmentInteractionListener mListener;
 
     public JoinGroupFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment JoinGroupFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static JoinGroupFragment newInstance(String param1, String param2) {
-        JoinGroupFragment fragment = new JoinGroupFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join_group, container, false);
+
+        view = inflater.inflate(R.layout.fragment_join_group, container, false);
+
+
+        tv = view.findViewById(R.id.questionText);
+        btn1 = view.findViewById(R.id.button_1);
+        btn2 = view.findViewById(R.id.button_2);
+        btn3 = view.findViewById(R.id.button_3);
+        btn4 = view.findViewById(R.id.button_4);
+        btn5 = view.findViewById(R.id.button_5);
+        btnSend = view.findViewById(R.id.button_send);
+        btnEvaluate = view.findViewById(R.id.button_evaluation);
+
+        groupId =  getArguments().getString("groupId");
+
+        ((GroupActivity)getActivity()).readCurrentUserData(new GroupActivity.FirebaseCallback() {
+            @Override
+            public void onCallback(User user) {
+
+                username = user.getUserName();
+            }
+        });
+
+
+        readData(new FirebaseCallback() {
+            @Override
+            public void onCallback(Question questionObject) {
+                String text = questionObject.getQuestion();
+                tv.setText(text);
+            }
+
+        });
+
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(chosenButton == 0)
+                {
+                    Toast.makeText(getContext(), "You must chose a button!", Toast.LENGTH_SHORT).show();
+                }
+
+                else{
+
+                    responsesReference = FirebaseDatabase.getInstance().getReference("responses");
+                    responsesReference.child(groupId).child(questionObject.getQuestionId()).child(username).setValue(response);
+                }
+            }
+        });
+
+        btnEvaluate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                currentQuestionId = questionObject.getQuestionId();
+                // passing the id of the question to which we want to see the responses to the ViewOthersResponses fragment
+                Bundle bundle=new Bundle();
+                bundle.putString("questionId", currentQuestionId);
+                ViewOthersResponsesFragment viewOthersResponsesFragment = new ViewOthersResponsesFragment();
+                ((GroupActivity)getActivity()).replaceFragment(viewOthersResponsesFragment);
+            }
+        });
+
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void readData (final FirebaseCallback callback) {
+
+        FirebaseDatabase.getInstance().getReference("questions").getRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // searching for the question that is active and its groupid is the one given by the user
+
+
+                    if(postSnapshot.child("groupId").getValue().equals(groupId) && postSnapshot.child("isActive").getValue().equals(activeQuestion)) // checking if the current question has the given groupid and if its active
+                    {
+                        questionObject = postSnapshot.getValue(Question.class); // putting the searched question object into the questionObject variable
+                        Log.e("EREDMENY", questionObject.getQuestion());
+
+                    }
+                }
+
+                callback.onCallback(questionObject);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+                Log.e("TAG", "Failed to read value.", error.toException());
+            }
+        });
+
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onClick(View v) {
+
+        switch(v.getId())
+        {
+            case R.id.button_1:
+                response = 1;
+                chosenButton = 1;
+                break;
+
+            case R.id.button_2:
+                response = 2;
+                chosenButton = 1;
+                break;
+
+            case R.id.button_3:
+                response = 3;
+                chosenButton = 1;
+                break;
+
+            case R.id.button_4:
+                response = 4;
+                chosenButton = 1;
+                break;
+
+            case R.id.button_5:
+                response = 5;
+                chosenButton = 1;
+                break;
         }
+
+        Log.e("kritikus resz eleje", String.valueOf(chosenButton));
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private interface FirebaseCallback{
+        void onCallback(Question questionObject );
+    }
+
 }

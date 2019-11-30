@@ -1,4 +1,4 @@
-package com.example.poker2;
+package com.example.poker2.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,6 +12,11 @@ import com.example.poker2.Fragments.AddGroupFragment;
 import com.example.poker2.Fragments.AdminFragment;
 import com.example.poker2.Fragments.JoinGroupFragment;
 import com.example.poker2.Fragments.UserFragment;
+import com.example.poker2.Classes.Group;
+import com.example.poker2.Fragments.ViewOthersResponsesFragment;
+import com.example.poker2.ListingGroupsAdapter;
+import com.example.poker2.R;
+import com.example.poker2.Classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +28,7 @@ import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
 
-public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, AddGroupFragment.OnFragmentInteractionListener, JoinGroupFragment.OnFragmentInteractionListener {
+public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, AddGroupFragment.OnFragmentInteractionListener, JoinGroupFragment.OnFragmentInteractionListener, ViewOthersResponsesFragment.OnFragmentInteractionListener {
 
     private String currentUserId;
     private DatabaseReference database;
@@ -49,7 +54,6 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
                 if (userType == 1) {
 
                     loadFragment(new AdminFragment()); // if usertype == 1 (admin) than we load the appropriate fragment
-
 
                 }
 
@@ -95,7 +99,7 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
     }
 
 
-    private interface FirebaseCallback{  // ez szol a tobbi resznek h megvan a user es => csak akkor nezi meg a typet ha megvan hogy ki a bejelntkezett user (a user nullobjectkent vetelenek elkerulese)
+    public interface FirebaseCallback{  // ez szol a tobbi resznek h megvan a user es => csak akkor nezi meg a typet ha megvan hogy ki a bejelntkezett user (a user nullobjectkent vetelenek elkerulese)
         void onCallback(User user);   // custom callback that waits for the data
     }
 
@@ -112,5 +116,6 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 
 }

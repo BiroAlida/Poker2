@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.poker2.GroupActivity;
+import com.example.poker2.Activities.GroupActivity;
 import com.example.poker2.R;
 
 

@@ -1,7 +1,6 @@
 package com.example.poker2.Fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,13 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.poker2.Group;
+import com.example.poker2.Classes.Group;
+import com.example.poker2.Classes.Question;
 import com.example.poker2.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,10 +36,13 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
     private View view;
     private LinearLayout questionContainer;
     private Button addQuestion, addGroup;
-    private DatabaseReference database;
+    private DatabaseReference database, databaseQuestions;
     private EditText groupName;
     private ArrayList<String> questions = new ArrayList<>();
     private static int groupCount = 0;
+    private String active = "t";
+    private String inactive = "f";
+
 
     public AddGroupFragment() {
         // Required empty public constructor
@@ -51,7 +52,8 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        database = FirebaseDatabase.getInstance().getReference("groups");;
+        database = FirebaseDatabase.getInstance().getReference("groups");
+        databaseQuestions = FirebaseDatabase.getInstance().getReference("questions");;
 
         view = inflater.inflate(R.layout.fragment_add_group, container, false);
         questionContainer = view.findViewById(R.id.questionContainer);
@@ -61,7 +63,7 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
 
         addQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {  // when clicking the addQuestion button it creates a dialog box
+            public void onClick(View view) {
                 showDialog();
             }
         });
@@ -116,6 +118,12 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
                     TextView questionView = new TextView(getContext());
                     questionView.setText(question);
                     questionContainer.addView(questionView);
+
+                    // adding the questions to the Questions node in database
+                    String id = databaseQuestions.push().getKey();
+                    Question q = new Question(id,String.valueOf(groupCount),question, active);
+                    databaseQuestions.child(id).setValue(q);
+
 
                 }
             }

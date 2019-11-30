@@ -1,6 +1,6 @@
 package com.example.poker2.Fragments;
 
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,8 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.poker2.Group;
-import com.example.poker2.GroupActivity;
+import com.example.poker2.Activities.GroupActivity;
 import com.example.poker2.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,9 +31,10 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     private View view;
     private TextView tv_groupid;
     private Button joinGroup;
-    private DatabaseReference database;
+    private FirebaseDatabase  firebaseDatabase;
+    private DatabaseReference rootRef, itemsRef;
     private String groupinput;
-    private ArrayList<Integer> groupIds = new ArrayList<>();
+    private ArrayList grpIds;
 
     public UserFragment() {
         // Required empty public constructor
@@ -51,19 +51,22 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         joinGroup = view.findViewById(R.id.button_joinGroup);
         groupinput = tv_groupid.getText().toString();
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference orderidRef = rootRef.child("groups").child(groupinput);
-        ValueEventListener ev = new ValueEventListener() {
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        rootRef = firebaseDatabase.getReference();
+        itemsRef = rootRef.child("groups");
+        grpIds = new ArrayList<String>();
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists())
-                {
-                    Toast.makeText(getContext(), "invalid id", Toast.LENGTH_LONG);
+
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    String ids = ds.child("groupId").getValue(String.class); // putting all of the group ids into the grpids ArrayList
+                    grpIds.add(ids);
                 }
-                else
-                {
-                   // joinGroup.setOnClickListener(this);
-                }
+                Log.d("LIST",grpIds.toString());
             }
 
             @Override
@@ -71,27 +74,9 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
             }
         };
+        itemsRef.addListenerForSingleValueEvent(valueEventListener);
 
-       /* database.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren())
-                {
-                    groupIds.add((Integer) dataSnapshot.child("groups").getValue());
-
-                }
-            }
-
-
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-       // joinGroup.setOnClickListener(this);
+        joinGroup.setOnClickListener(this);
 
         return view;
     }
@@ -104,9 +89,32 @@ public class UserFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        ((GroupActivity)getActivity()).replaceFragment(new JoinGroupFragment());
-    }
+        if (v == joinGroup)
+        {
+            groupinput = tv_groupid.getText().toString();
 
+
+            if(grpIds.contains(groupinput)) // if the users input of the group id is in the ArrayList then he can join the group
+            {
+                Toast.makeText(getContext(),"Join Successful",Toast.LENGTH_LONG).show();
+
+                // passing the groupinput to the JoinGroupFragment
+                Bundle bundle=new Bundle();
+                bundle.putString("groupId", groupinput);
+
+                JoinGroupFragment joinGroupFragment = new JoinGroupFragment();
+                joinGroupFragment.setArguments(bundle);
+
+                ((GroupActivity)getActivity()).replaceFragment(joinGroupFragment);
+            }
+            else {
+
+                Toast.makeText(getContext(),"Invalid Group Id",Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

@@ -1,4 +1,4 @@
-package com.example.poker2;
+package com.example.poker2.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.poker2.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btn_register, btn_login;
     private EditText et_loginEmail, et_password;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -84,10 +85,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful())
                     {
-                        Toast.makeText(MainActivity.this, "Invalid emsil or password", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, "Invalid emsil or password", Toast.LENGTH_LONG).show();
                     }
                     else{
-                        startActivity(new Intent(MainActivity.this, GroupActivity.class));
+                        startActivity(new Intent(LoginActivity.this, GroupActivity.class));
                         finish();
                     }
                 }

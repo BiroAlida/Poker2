@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.poker2.Classes.Group;
+
 import java.util.ArrayList;
 
 public class ListingGroupsAdapter extends RecyclerView.Adapter {
