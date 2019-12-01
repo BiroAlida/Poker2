@@ -11,13 +11,15 @@
         android:id="@+id/button_AddGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add new Group" />
+        android:text="Add new Group"
+
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupList_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_AddGroup"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="80dp" />
 
 </FrameLayout>

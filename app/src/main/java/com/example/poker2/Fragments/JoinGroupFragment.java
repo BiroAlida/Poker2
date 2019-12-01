@@ -1,15 +1,10 @@
 package com.example.poker2.Fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,19 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.poker2.Activities.GroupActivity;
-import com.example.poker2.Classes.Group;
 import com.example.poker2.Classes.Question;
 import com.example.poker2.Classes.User;
 import com.example.poker2.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 
 public class JoinGroupFragment extends Fragment implements View.OnClickListener {
@@ -120,8 +110,14 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
                 // passing the id of the question to which we want to see the responses to the ViewOthersResponses fragment
                 Bundle bundle=new Bundle();
                 bundle.putString("questionId", currentQuestionId);
+                bundle.putString("groupId", groupId);
                 ViewOthersResponsesFragment viewOthersResponsesFragment = new ViewOthersResponsesFragment();
+                viewOthersResponsesFragment.setArguments(bundle);
                 ((GroupActivity)getActivity()).replaceFragment(viewOthersResponsesFragment);
+
+                /*Intent responsesIntent = new Intent(getActivity(), ViewResponsesActivity.class);
+                responsesIntent.putExtra("groupId",groupId);
+                startActivity(responsesIntent);*/
             }
         });
 

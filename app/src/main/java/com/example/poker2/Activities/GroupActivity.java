@@ -14,7 +14,6 @@ import com.example.poker2.Fragments.JoinGroupFragment;
 import com.example.poker2.Fragments.UserFragment;
 import com.example.poker2.Classes.Group;
 import com.example.poker2.Fragments.ViewOthersResponsesFragment;
-import com.example.poker2.ListingGroupsAdapter;
 import com.example.poker2.R;
 import com.example.poker2.Classes.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +37,6 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
 
     private RecyclerView rw;
     private ArrayList<Group> list;
-    private ListingGroupsAdapter adapter;
     private FirebaseAuth mAuth;
 
     @Override
