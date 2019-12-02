@@ -1,5 +1,4 @@
 package com.example.poker2.Adapters;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

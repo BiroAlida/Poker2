@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,6 +74,7 @@ public class AdminFragment extends Fragment implements View.OnClickListener, Gro
         rw = view.findViewById(R.id.groupList_recyclerView);
         layoutManager = new LinearLayoutManager(getContext());
         rw.setLayoutManager(layoutManager);
+        rw.addItemDecoration(new DividerItemDecoration(rw.getContext(), DividerItemDecoration.VERTICAL));
         adapter = new GroupsAdapter(list, this); // passing the onGroupListener interface to the constructor of the GroupsAdapter
         rw.setAdapter(adapter);
 
@@ -98,19 +100,31 @@ public class AdminFragment extends Fragment implements View.OnClickListener, Gro
     public void showDialog(final Group group) {
         CharSequence[] items;
 
-        items = new String[]{"View Responses"};
+        items = new String[]{"View Responses", "Activate questions"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(group.getGroupName())
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
 
-                        Bundle bundle=new Bundle();
-                        bundle.putString("groupId", group.getGroupId());
-                        ViewOthersResponsesFragment viewOthersResponsesFragment = new ViewOthersResponsesFragment();
-                        viewOthersResponsesFragment.setArguments(bundle);
-                        ((GroupActivity)getActivity()).replaceFragment(viewOthersResponsesFragment);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("groupId", group.getGroupId());
+                                ViewOthersResponsesFragment viewOthersResponsesFragment = new ViewOthersResponsesFragment();
+                                viewOthersResponsesFragment.setArguments(bundle);
+                                ((GroupActivity) getActivity()).replaceFragment(viewOthersResponsesFragment);
+                                break;
+
+                            case 1:
+                                Bundle bundle2 = new Bundle();
+                                bundle2.putString("groupId", group.getGroupId());
+                                ViewGroupQuestionsFragment viewGroupQuestionsFragment = new ViewGroupQuestionsFragment();
+                                viewGroupQuestionsFragment.setArguments(bundle2);
+                                ((GroupActivity) getActivity()).replaceFragment(viewGroupQuestionsFragment);
+                                break;
+                        }
 
                     }
                 });
@@ -126,7 +140,7 @@ public class AdminFragment extends Fragment implements View.OnClickListener, Gro
     @Override
     public void onGroupClick(int position) {
 
-        showDialog(list.get(position)); // atadodik mindegyik viewhilder pozicioja (vagyis minden groupé a recycler viewbol)
+        showDialog(list.get(position)); // atadodik mindegyik viewholder pozicioja (vagyis minden groupé a recycler viewbol)
     }
 
     public interface OnFragmentInteractionListener {

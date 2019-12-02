@@ -98,6 +98,8 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
 
                     responsesReference = FirebaseDatabase.getInstance().getReference("responses");
                     responsesReference.child(groupId).child(questionObject.getQuestionId()).child(username).setValue(response);
+                    Toast.makeText(getContext(), "Your answer was saved successfully", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -140,6 +142,7 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
                         Log.e("EREDMENY", questionObject.getQuestion());
 
                     }
+
                 }
 
                 callback.onCallback(questionObject);

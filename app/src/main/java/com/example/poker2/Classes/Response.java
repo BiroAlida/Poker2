@@ -7,7 +7,7 @@ public class Response {
     String questionId;
     ArrayMap<String, Integer> responses;
 
-    Response(){}
+    public Response(){}
 
     public Response(String questionId, ArrayMap<String, Integer> responses) {
         this.questionId = questionId;

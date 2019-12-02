@@ -13,6 +13,7 @@ import com.example.poker2.Fragments.AdminFragment;
 import com.example.poker2.Fragments.JoinGroupFragment;
 import com.example.poker2.Fragments.UserFragment;
 import com.example.poker2.Classes.Group;
+import com.example.poker2.Fragments.ViewGroupQuestionsFragment;
 import com.example.poker2.Fragments.ViewOthersResponsesFragment;
 import com.example.poker2.R;
 import com.example.poker2.Classes.User;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
 
-public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, AddGroupFragment.OnFragmentInteractionListener, JoinGroupFragment.OnFragmentInteractionListener, ViewOthersResponsesFragment.OnFragmentInteractionListener {
+public class GroupActivity extends AppCompatActivity implements AdminFragment.OnFragmentInteractionListener, UserFragment.OnFragmentInteractionListener, AddGroupFragment.OnFragmentInteractionListener, JoinGroupFragment.OnFragmentInteractionListener, ViewOthersResponsesFragment.OnFragmentInteractionListener, ViewGroupQuestionsFragment.OnFragmentInteractionListener {
 
     private String currentUserId;
     private DatabaseReference database;

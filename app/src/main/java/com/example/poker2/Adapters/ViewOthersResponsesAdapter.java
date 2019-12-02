@@ -3,6 +3,7 @@ package com.example.poker2.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +13,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.poker2.Classes.Response;
 import com.example.poker2.R;
 
 import java.util.ArrayList;
 
 public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersResponsesAdapter.ViewOthersResponsesViewHolder> {
 
-    private ArrayList<Response> questionResponses;
+    private ArrayMap<String,Integer> questionResponses;
     private Context context;
 
-    public ViewOthersResponsesAdapter(ArrayList<Response> questionResponses, Context context) {
+    public ViewOthersResponsesAdapter(ArrayMap<String,Integer> questionResponses, Context context) {
         this.questionResponses = questionResponses;
         this.context = context;
     }
@@ -41,22 +41,17 @@ public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersR
     @Override
     public void onBindViewHolder(@NonNull ViewOthersResponsesAdapter.ViewOthersResponsesViewHolder holder, int position) {
 
-        ArrayMap<String, Integer> responses = questionResponses.get(position).getResponses();
-        for (ArrayMap.Entry<String,Integer> entry : responses.entrySet()){
+        //holder.question.setText(questionResponses.get(position).getQuestionId());
+      //  ArrayMap<String, Integer> responses = questionResponses.get(position).getResponses();
+        for (ArrayMap.Entry<String,Integer> entry : questionResponses.entrySet()){
 
-            TextView user = new TextView(context);
-            user.setText(entry.getKey());
 
-            TextView response = new TextView(context);
-            response.setText(String.valueOf(entry.getValue()));
-
-           // holder.name.setText(entry.getKey());
-           // holder.chosenNumber.setText(String.valueOf(entry.getValue()));
-           holder.name.setText(user.getText());
-           holder.chosenNumber.setText(response.getText());
+           holder.name.setText(entry.getKey());
+           holder.chosenNumber.setText(String.valueOf(entry.getValue()));
 
         }
-
+        
+        Log.e("eredmeny", String.valueOf(questionResponses.size()));
 
     }
 
@@ -67,13 +62,14 @@ public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersR
 
     public class ViewOthersResponsesViewHolder extends RecyclerView.ViewHolder{
 
-        TextView name, chosenNumber;
+        TextView name, chosenNumber, question;
 
         public ViewOthersResponsesViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.textViewTitle);
             chosenNumber = (TextView) itemView.findViewById(R.id.textViewNumber);
+            question = (TextView) itemView.findViewById(R.id.textViewQuestion);
         }
     }
 

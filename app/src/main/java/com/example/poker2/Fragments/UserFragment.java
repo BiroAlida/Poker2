@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.poker2.Activities.GroupActivity;
+import com.example.poker2.Classes.Question;
 import com.example.poker2.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -86,6 +87,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     }
 
+
     @Override
     public void onClick(View v) {
 
@@ -96,6 +98,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
             if(grpIds.contains(groupinput)) // if the users input of the group id is in the ArrayList then he can join the group
             {
+
                 Toast.makeText(getContext(),"Join Successful",Toast.LENGTH_LONG).show();
 
                 // passing the groupinput to the JoinGroupFragment
@@ -107,17 +110,19 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
                 ((GroupActivity)getActivity()).replaceFragment(joinGroupFragment);
             }
+
             else {
 
                 Toast.makeText(getContext(),"Invalid Group Id",Toast.LENGTH_LONG).show();
             }
 
+
         }
 
     }
-
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

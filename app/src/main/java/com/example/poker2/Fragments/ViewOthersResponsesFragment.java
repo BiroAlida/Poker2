@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,6 +47,7 @@ public class ViewOthersResponsesFragment extends Fragment {
     private ViewOthersResponsesAdapter adapter;
     //private RecyclerView.Adapter adapter;
     private FirebaseAuth mAuth;
+    Response myResponse = new Response();
     private DatabaseReference responsesRef = FirebaseDatabase.getInstance().getReference("responses");
 
     private RecyclerView.LayoutManager layoutManager;
@@ -63,25 +65,31 @@ public class ViewOthersResponsesFragment extends Fragment {
         questionId =  getArguments().getString("questionId");
         groupId = getArguments().getString("groupId");
 
-        rw = view.findViewById(R.id.recview);
-        rw.setLayoutManager(layoutManager);
-        rw.setLayoutManager(new LinearLayoutManager(getContext()));
+        //rw = view.findViewById(R.id.recview);
+        //rw.setLayoutManager(layoutManager);
+        //rw.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
 
         readResponses(new FirebaseCallback() {
             @Override
-            public void onCallback(ArrayList<Response> questionResponses) {
+            public void onCallback(ArrayMap<String, Integer> responses) {
 
-                adapter = new ViewOthersResponsesAdapter(list, getContext());
+                rw = view.findViewById(R.id.recview);
+                layoutManager = new LinearLayoutManager(getContext());
+                rw.setLayoutManager(layoutManager);
+                adapter = new ViewOthersResponsesAdapter(responses, getContext());
                 rw.setAdapter(adapter);
             }
         });
+
 
         return view;
     }
 
     public void readResponses(final FirebaseCallback callback) // reads the responses of each user out of the responses node
     {
-        responsesRef.child(groupId).addListenerForSingleValueEvent(new ValueEventListener() {
+        responsesRef.child(groupId).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,11 +105,19 @@ public class ViewOthersResponsesFragment extends Fragment {
                         Log.e("EREDMENY", users.getKey());
                         Log.e("EREDMENY", String.valueOf(response));
                         responses.put(userName,response);
+
                     }
                     list.add(new Response(questionId,responses));
-                    Log.e("EREDMENY2", list.toString());
-                    callback.onCallback(list);
+
+                    Log.e("EREDMENY2", String.valueOf(responses.size()));
+
+                   // callback.onCallback(list);
+
+
                 }
+
+
+
             }
 
             @Override
@@ -118,7 +134,7 @@ public class ViewOthersResponsesFragment extends Fragment {
     }
 
     public interface FirebaseCallback{
-        void onCallback(ArrayList<Response> questionResponses);
+        void onCallback(ArrayMap<String,Integer> responses);
     }
 
     }
