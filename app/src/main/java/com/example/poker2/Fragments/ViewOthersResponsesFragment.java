@@ -65,20 +65,15 @@ public class ViewOthersResponsesFragment extends Fragment {
         questionId =  getArguments().getString("questionId");
         groupId = getArguments().getString("groupId");
 
-        //rw = view.findViewById(R.id.recview);
-        //rw.setLayoutManager(layoutManager);
-        //rw.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
 
         readResponses(new FirebaseCallback() {
             @Override
-            public void onCallback(ArrayMap<String, Integer> responses) {
+            public void onCallback(ArrayList<Response> list) {
 
                 rw = view.findViewById(R.id.recview);
                 layoutManager = new LinearLayoutManager(getContext());
                 rw.setLayoutManager(layoutManager);
-                adapter = new ViewOthersResponsesAdapter(responses, getContext());
+                adapter = new ViewOthersResponsesAdapter(list, getContext());
                 rw.setAdapter(adapter);
             }
         });
@@ -96,27 +91,17 @@ public class ViewOthersResponsesFragment extends Fragment {
 
                 list.clear();
                 for (DataSnapshot questions : dataSnapshot.getChildren()){
-                    String questionId = questions.getKey();
-                    ArrayMap<String, Integer> responses = new ArrayMap<>();
 
                     for (DataSnapshot users : questions.getChildren()) {
                         String userName = users.getKey();
-                        int response = users.getValue(Integer.class);
-                        Log.e("EREDMENY", users.getKey());
-                        Log.e("EREDMENY", String.valueOf(response));
-                        responses.put(userName,response);
+                        Integer response = users.getValue(Integer.class);
+                        list.add(new Response(userName,response));
 
                     }
-                    list.add(new Response(questionId,responses));
 
-                    Log.e("EREDMENY2", String.valueOf(responses.size()));
-
-                   // callback.onCallback(list);
-
+                   callback.onCallback(list);
 
                 }
-
-
 
             }
 
@@ -134,7 +119,7 @@ public class ViewOthersResponsesFragment extends Fragment {
     }
 
     public interface FirebaseCallback{
-        void onCallback(ArrayMap<String,Integer> responses);
+        void onCallback(ArrayList<Response> responseList);
     }
 
     }

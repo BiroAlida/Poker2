@@ -19,7 +19,7 @@ public class ViewGroupQuestionsAdapter extends RecyclerView.Adapter<ViewGroupQue
     private ArrayList<Question> questions;
     private OnGroupQuestionsListener onGroupQuestionsListener;
 
-    public ViewGroupQuestionsAdapter(ArrayList<Question> questions, OnGroupQuestionsListener onGroupQuestiponsListener) {
+    public ViewGroupQuestionsAdapter(ArrayList<Question> questions, OnGroupQuestionsListener onGroupQuestionsListener) {
         this.questions = questions;
         this.onGroupQuestionsListener = onGroupQuestionsListener;
     }

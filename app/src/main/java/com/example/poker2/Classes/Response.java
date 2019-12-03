@@ -4,29 +4,31 @@ import android.util.ArrayMap;
 
 public class Response {
 
-    String questionId;
-    ArrayMap<String, Integer> responses;
+    String name;
 
-    public Response(){}
+    Integer answer;
 
-    public Response(String questionId, ArrayMap<String, Integer> responses) {
-        this.questionId = questionId;
-        this.responses = responses;
+    public Response() {
     }
 
-    public String getQuestionId() {
-        return questionId;
+    public Response(String name, Integer answer) {
+        this.name = name;
+        this.answer = answer;
     }
 
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
+    public String getName() {
+        return name;
     }
 
-    public ArrayMap<String, Integer> getResponses() {
-        return responses;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setResponses(ArrayMap<String, Integer> responses) {
-        this.responses = responses;
+    public Integer getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(Integer answer) {
+        this.answer = answer;
     }
 }

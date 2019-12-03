@@ -52,13 +52,13 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
                 userType = user.getUserType();
                 if (userType == 1) {
 
-                    loadFragment(new AdminFragment()); // if usertype == 1 (admin) than we load the appropriate fragment
+                    loadFragment(new AdminFragment()); // if usertype == 1 the user is admin
 
                 }
 
                 else{
 
-                    loadFragment(new UserFragment()); // creating an object of the UserFragment and adding it to the fragment container by calling loadfragment
+                    loadFragment(new UserFragment());
                 }
 
             }

@@ -41,8 +41,6 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,14 +85,12 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
     }
 
-
     @Override
     public void onClick(View v) {
 
         if (v == joinGroup)
         {
             groupinput = tv_groupid.getText().toString();
-
 
             if(grpIds.contains(groupinput)) // if the users input of the group id is in the ArrayList then he can join the group
             {
@@ -115,7 +111,6 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
                 Toast.makeText(getContext(),"Invalid Group Id",Toast.LENGTH_LONG).show();
             }
-
 
         }
 

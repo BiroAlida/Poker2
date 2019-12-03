@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,9 +32,9 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
     private TextView tv;
     private  int response;
     private Question questionObject;
-    private Button btnSend, btn1,btn2,btn3,btn4,btn5, btnEvaluate;
+    private Button btnSend, btn1,btn2,btn3,btn4,btn5, btnEvaluate,buttonGoBack;
     private String username;
-    private String activeQuestion = "t";
+    private boolean active = true;
     private int chosenButton = 0;
     private DatabaseReference responsesReference;
     private String currentQuestionId;
@@ -43,13 +44,14 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_join_group, container, false);
 
+        buttonGoBack = view.findViewById(R.id.button_goBack);
+        buttonGoBack.setVisibility(View.INVISIBLE);
 
         tv = view.findViewById(R.id.questionText);
         btn1 = view.findViewById(R.id.button_1);
@@ -74,8 +76,35 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
         readData(new FirebaseCallback() {
             @Override
             public void onCallback(Question questionObject) {
-                String text = questionObject.getQuestion();
-                tv.setText(text);
+
+                if(questionObject != null)
+                {
+                    String text = questionObject.getQuestion();
+                    tv.setText(text);
+                }
+                else{
+
+                    tv.setText("This group does not have any active questions!");
+                    btn1.setVisibility(View.INVISIBLE);
+                    btn2.setVisibility(View.INVISIBLE);
+                    btn3.setVisibility(View.INVISIBLE);
+                    btn4.setVisibility(View.INVISIBLE);
+                    btn5.setVisibility(View.INVISIBLE);
+                    btnSend.setVisibility(View.INVISIBLE);
+                    btnEvaluate.setVisibility(View.INVISIBLE);
+
+                    buttonGoBack.setVisibility(View.VISIBLE);
+                    buttonGoBack.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.popBackStack();
+
+                        }
+                    });
+                }
+
             }
 
         });
@@ -109,6 +138,7 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
             public void onClick(View v) {
 
                 currentQuestionId = questionObject.getQuestionId();
+
                 // passing the id of the question to which we want to see the responses to the ViewOthersResponses fragment
                 Bundle bundle=new Bundle();
                 bundle.putString("questionId", currentQuestionId);
@@ -117,9 +147,6 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
                 viewOthersResponsesFragment.setArguments(bundle);
                 ((GroupActivity)getActivity()).replaceFragment(viewOthersResponsesFragment);
 
-                /*Intent responsesIntent = new Intent(getActivity(), ViewResponsesActivity.class);
-                responsesIntent.putExtra("groupId",groupId);
-                startActivity(responsesIntent);*/
             }
         });
 
@@ -136,15 +163,13 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // searching for the question that is active and its groupid is the one given by the user
 
 
-                    if(postSnapshot.child("groupId").getValue().equals(groupId) && postSnapshot.child("isActive").getValue().equals(activeQuestion)) // checking if the current question has the given groupid and if its active
+                    if(postSnapshot.child("groupId").getValue().equals(groupId) && postSnapshot.child("isActive").getValue().equals(String.valueOf(active))) // checking if the current question has the given groupid and if its active
                     {
                         questionObject = postSnapshot.getValue(Question.class); // putting the searched question object into the questionObject variable
-                        Log.e("EREDMENY", questionObject.getQuestion());
 
                     }
 
                 }
-
                 callback.onCallback(questionObject);
 
             }
@@ -189,7 +214,6 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
                 break;
         }
 
-        Log.e("kritikus resz eleje", String.valueOf(chosenButton));
     }
 
     public interface OnFragmentInteractionListener {

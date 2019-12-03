@@ -42,6 +42,7 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
     private static int groupCount = 0;
     private String active = "t";
     private String inactive = "f";
+    private boolean inactiveQuestion = false;
 
 
     public AddGroupFragment() {
@@ -121,7 +122,7 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
 
                     // adding the questions to the Questions node in database
                     String id = databaseQuestions.push().getKey();
-                    Question q = new Question(id,String.valueOf(groupCount),question, active);
+                    Question q = new Question(id,String.valueOf(groupCount),question, inactiveQuestion);
                     databaseQuestions.child(id).setValue(q);
 
 

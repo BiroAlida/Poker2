@@ -13,16 +13,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.poker2.Classes.Response;
 import com.example.poker2.R;
 
 import java.util.ArrayList;
 
 public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersResponsesAdapter.ViewOthersResponsesViewHolder> {
 
-    private ArrayMap<String,Integer> questionResponses;
+    private ArrayList<Response> questionResponses;
     private Context context;
 
-    public ViewOthersResponsesAdapter(ArrayMap<String,Integer> questionResponses, Context context) {
+    public ViewOthersResponsesAdapter(ArrayList<Response> questionResponses, Context context) {
         this.questionResponses = questionResponses;
         this.context = context;
     }
@@ -40,18 +41,8 @@ public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersR
 
     @Override
     public void onBindViewHolder(@NonNull ViewOthersResponsesAdapter.ViewOthersResponsesViewHolder holder, int position) {
-
-        //holder.question.setText(questionResponses.get(position).getQuestionId());
-      //  ArrayMap<String, Integer> responses = questionResponses.get(position).getResponses();
-        for (ArrayMap.Entry<String,Integer> entry : questionResponses.entrySet()){
-
-
-           holder.name.setText(entry.getKey());
-           holder.chosenNumber.setText(String.valueOf(entry.getValue()));
-
-        }
-        
-        Log.e("eredmeny", String.valueOf(questionResponses.size()));
+            holder.name.setText(questionResponses.get(position).getName());
+            holder.chosenNumber.setText(String.valueOf(questionResponses.get(position).getAnswer()));
 
     }
 
