@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -81,6 +82,7 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
         rw = view.findViewById(R.id.groupQuestions_recyclerView);
         layoutManager = new LinearLayoutManager(getContext());
         rw.setLayoutManager(layoutManager);
+        rw.addItemDecoration(new DividerItemDecoration(rw.getContext(), DividerItemDecoration.VERTICAL));
         adapter = new ViewGroupQuestionsAdapter(list, this); // passing the onGroupListener interface to the constructor of the GroupsAdapter
         rw.setAdapter(adapter);
 
@@ -132,7 +134,7 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
                     }
 
                 }
-                Log.e("EREDMENY2",listQuestion.toString());
+
                 callback.onCallback(questionObject);
             }
 

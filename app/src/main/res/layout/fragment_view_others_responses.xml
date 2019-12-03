@@ -11,15 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="30sp"
+        android:textAlignment="center"
         android:text="Responses"
          />
 
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:text="question"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recview"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="229dp"
-        tools:layout_editor_absoluteY="252dp" />
+        tools:layout_editor_absoluteY="252dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
 
 </FrameLayout>

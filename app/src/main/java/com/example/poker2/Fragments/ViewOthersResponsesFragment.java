@@ -45,12 +45,10 @@ public class ViewOthersResponsesFragment extends Fragment {
     private RecyclerView rw;
     private ArrayList<Response> list = new ArrayList<>();
     private ViewOthersResponsesAdapter adapter;
-    //private RecyclerView.Adapter adapter;
-    private FirebaseAuth mAuth;
-    Response myResponse = new Response();
     private DatabaseReference responsesRef = FirebaseDatabase.getInstance().getReference("responses");
-
+    private DatabaseReference questionRef = FirebaseDatabase.getInstance().getReference("questions");
     private RecyclerView.LayoutManager layoutManager;
+
 
     public ViewOthersResponsesFragment() {
         // Required empty public constructor
@@ -64,23 +62,48 @@ public class ViewOthersResponsesFragment extends Fragment {
 
         questionId =  getArguments().getString("questionId");
         groupId = getArguments().getString("groupId");
+        tv_question = view.findViewById(R.id.questionText);
 
 
         readResponses(new FirebaseCallback() {
+
+            @Override
+            public void onCallbackQuestionId(String currentQuestionId) {
+                Log.e("eri",currentQuestionId);
+                questionRef.child(currentQuestionId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Question question = dataSnapshot.getValue(Question.class);
+                        tv_question.setText("Question: " + question.getQuestion());
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
             @Override
             public void onCallback(ArrayList<Response> list) {
 
                 rw = view.findViewById(R.id.recview);
                 layoutManager = new LinearLayoutManager(getContext());
                 rw.setLayoutManager(layoutManager);
+                rw.addItemDecoration(new DividerItemDecoration(rw.getContext(), DividerItemDecoration.VERTICAL));
                 adapter = new ViewOthersResponsesAdapter(list, getContext());
                 rw.setAdapter(adapter);
+
             }
+
+
         });
 
 
         return view;
     }
+
 
     public void readResponses(final FirebaseCallback callback) // reads the responses of each user out of the responses node
     {
@@ -93,9 +116,14 @@ public class ViewOthersResponsesFragment extends Fragment {
                 for (DataSnapshot questions : dataSnapshot.getChildren()){
 
                     for (DataSnapshot users : questions.getChildren()) {
+
+                        String currentQuestionId = questions.getKey();
                         String userName = users.getKey();
                         Integer response = users.getValue(Integer.class);
                         list.add(new Response(userName,response));
+                        Log.e("elegem1",currentQuestionId);
+                        callback.onCallbackQuestionId(currentQuestionId);
+                        Log.e("elegem2",currentQuestionId);
 
                     }
 
@@ -113,16 +141,20 @@ public class ViewOthersResponsesFragment extends Fragment {
 
     }
 
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
     public interface FirebaseCallback{
+        void onCallbackQuestionId(String currentQuestionId);
         void onCallback(ArrayList<Response> responseList);
-    }
+
 
     }
+
+}
 
 
 

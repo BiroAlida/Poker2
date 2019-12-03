@@ -44,6 +44,7 @@ public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersR
             holder.name.setText(questionResponses.get(position).getName());
             holder.chosenNumber.setText(String.valueOf(questionResponses.get(position).getAnswer()));
 
+
     }
 
     @Override
@@ -60,7 +61,7 @@ public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersR
 
             name = (TextView) itemView.findViewById(R.id.textViewTitle);
             chosenNumber = (TextView) itemView.findViewById(R.id.textViewNumber);
-            question = (TextView) itemView.findViewById(R.id.textViewQuestion);
+
         }
     }
 

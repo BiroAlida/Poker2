@@ -1,17 +1,14 @@
 package com.example.poker2.Classes;
 
-import android.util.ArrayMap;
-
 public class Response {
 
     String name;
-
     Integer answer;
 
     public Response() {
     }
 
-    public Response(String name, Integer answer) {
+   public Response(String name, Integer answer) {
         this.name = name;
         this.answer = answer;
     }

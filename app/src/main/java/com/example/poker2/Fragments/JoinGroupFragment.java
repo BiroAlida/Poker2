@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,10 +78,10 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onCallback(Question questionObject) {
 
-                if(questionObject != null)
+                if(questionObject != null)   // if questionObject is not empty then we output the question, else we make all the buttons invisible
                 {
                     String text = questionObject.getQuestion();
-                    tv.setText(text);
+                    tv.setText("Question: " + text);
                 }
                 else{
 
@@ -183,6 +184,16 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
 
     }
 
+    public void highlightButton(int ButtonId){
+        Button button = view.findViewById(ButtonId);
+        button.setBackgroundResource(R.drawable.button_highlight);
+    }
+
+    private void removeHighlight(int ButtonId) {
+        Button button = view.findViewById(ButtonId);
+        button.setBackgroundResource(0);
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -191,26 +202,31 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
             case R.id.button_1:
                 response = 1;
                 chosenButton = 1;
+                btn1.setBackgroundResource(R.drawable.button_highlight);
                 break;
 
             case R.id.button_2:
                 response = 2;
                 chosenButton = 1;
+                btn2.setBackgroundResource(R.drawable.button_highlight);
                 break;
 
             case R.id.button_3:
                 response = 3;
                 chosenButton = 1;
+                btn3.setBackgroundResource(R.drawable.button_highlight);
                 break;
 
             case R.id.button_4:
                 response = 4;
                 chosenButton = 1;
+                btn4.setBackgroundResource(R.drawable.button_highlight);
                 break;
 
             case R.id.button_5:
                 response = 5;
                 chosenButton = 1;
+                btn5.setBackgroundResource(R.drawable.button_highlight);
                 break;
         }
 
