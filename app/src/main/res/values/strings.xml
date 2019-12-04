@@ -22,7 +22,7 @@
     <string name = "Groups">"Groups"</string>
     <string name="addQuestion">Add question</string>
     <string name="addGroup">"Add group"</string>
-    <string name="send">"Add group"</string>
+    <string name="send">"Send"</string>
     <string name="seeAllResponses">"see all responses"</string>
     <string name = "back">"BACK"</string>
     <string name ="GroupId">"Group Id"</string>
