@@ -51,7 +51,6 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
     boolean active = true, inactive = false;
     private DatabaseReference questionRef = FirebaseDatabase.getInstance().getReference("questions");
     private RecyclerView.LayoutManager layoutManager;
-    private Question questionObject;
     private ArrayList<String> listQuestion = new ArrayList<>();
 
 
@@ -116,7 +115,7 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
 
     }
 
-    public void readQuestionData(final FirebaseCallbackQuestions callback)
+    /*public void readQuestionData(final FirebaseCallbackQuestions callback)
     {
         FirebaseDatabase.getInstance().getReference("questions").getRef().addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,7 +126,7 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
 
                     if(postSnapshot.child("groupId").getValue().equals(groupId) && postSnapshot.child("isActive").getValue().equals(String.valueOf(active))) // checking if the current question has the given groupid and if its active
                     {
-                        //questionObject = null;
+
                         questionObject = postSnapshot.getValue(Question.class);
                         listQuestion.add(questionObject.getQuestion());
 
@@ -144,46 +143,46 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
             }
         });
 
-    }
+    }*/
 
     public void showDialog(final Question question) {
         CharSequence[] items;
 
-        items = new String[]{"Activate question", "Dezactivate question"};
+        //items = new String[]{"Activate question", "Dezactivate question"};
+        items = new String[]{"Activate question"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(question.getQuestion())
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                readQuestionData(new FirebaseCallbackQuestions() {
 
+                                FirebaseDatabase.getInstance().getReference("questions").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
-                                    public void onCallback(Question questionObject) {
-                                        if (questionObject != null) // there is already an active question
-                                        {
-                                            Log.e("EREDMENY3",questionObject.getQuestion().toString());
-                                            Toast.makeText(getContext(), "There is already an active question, only one question can be active at a time", Toast.LENGTH_LONG).show();
-                                        } else {
-                                            Toast.makeText(getContext(), "Activated question successfully", Toast.LENGTH_SHORT).show();
-                                            String questionId = question.getQuestionId();
-                                            questionRef.child(questionId).child("isActive").setValue(String.valueOf(active));
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                                            if(postSnapshot.child("questionId").getValue(String.class).equals(question.getQuestionId())) // checking if the current question has the given groupid and if its active
+                                            {
+                                                String questionId = question.getQuestionId();
+                                                questionRef.child(postSnapshot.getKey()).child("isActive").setValue(active);
+                                                Toast.makeText(getContext(), "Activated question successfully", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                            else{
+                                                questionRef.child(postSnapshot.getKey()).child("isActive").setValue(inactive);
+                                            }
 
                                         }
                                     }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
                                 });
-
-                                break;
-                            case 1:
-
-                                Toast.makeText(getContext(), "Dezactivated question successfully", Toast.LENGTH_SHORT).show();
-                                String questionId2 = question.getQuestionId();
-                                questionRef.child(questionId2).child("isActive").setValue(String.valueOf(inactive));
-
                         }
-                    }
                 });
 
         AlertDialog dialog = builder.create();

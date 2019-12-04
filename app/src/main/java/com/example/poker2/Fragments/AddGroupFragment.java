@@ -122,7 +122,7 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
 
                     // adding the questions to the Questions node in database
                     String id = databaseQuestions.push().getKey();
-                    Question q = new Question(id,String.valueOf(groupCount),question, inactiveQuestion);
+                    Question q = new Question(id,String.valueOf(groupCount),question,inactiveQuestion);
                     databaseQuestions.child(id).setValue(q);
 
 

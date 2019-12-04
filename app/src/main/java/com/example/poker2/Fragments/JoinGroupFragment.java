@@ -163,11 +163,12 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // searching for the question that is active and its groupid is the one given by the user
 
-
-                    if(postSnapshot.child("groupId").getValue().equals(groupId) && postSnapshot.child("isActive").getValue().equals(String.valueOf(active))) // checking if the current question has the given groupid and if its active
+                    Log.e("post", postSnapshot.toString());
+                    if(postSnapshot.child("groupId").getValue(String.class).equals(groupId) &&
+                     postSnapshot.child("isActive").getValue(Boolean.class) == true) // checking if the current question has the given groupid and if its active
                     {
-                        questionObject = postSnapshot.getValue(Question.class); // putting the searched question object into the questionObject variable
-
+                        Log.e("eredmeny", postSnapshot.getKey());
+                        questionObject = postSnapshot.getValue(Question.class);
                     }
 
                 }

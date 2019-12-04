@@ -97,7 +97,6 @@ public class ViewOthersResponsesFragment extends Fragment {
 
             }
 
-
         });
 
 
@@ -121,9 +120,7 @@ public class ViewOthersResponsesFragment extends Fragment {
                         String userName = users.getKey();
                         Integer response = users.getValue(Integer.class);
                         list.add(new Response(userName,response));
-                        Log.e("elegem1",currentQuestionId);
                         callback.onCallbackQuestionId(currentQuestionId);
-                        Log.e("elegem2",currentQuestionId);
 
                     }
 
