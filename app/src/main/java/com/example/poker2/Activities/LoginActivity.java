@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful())
                     {
-                        Toast.makeText(LoginActivity.this, "Invalid emsil or password", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, getString(R.string.invalidEmailorPassword), Toast.LENGTH_LONG).show();
                     }
                     else{
                         startActivity(new Intent(LoginActivity.this, GroupActivity.class));

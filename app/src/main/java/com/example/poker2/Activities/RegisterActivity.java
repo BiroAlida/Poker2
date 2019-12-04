@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             }
                             else
                             {
-                                Toast.makeText(RegisterActivity.this, "Registration failed, please try again!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, getString(R.string.regFail), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

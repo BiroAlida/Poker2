@@ -10,7 +10,28 @@
     <string name="invalidEmail">"Email is not valid"</string>
     <string name="regPassError">"Password is required"</string>
     <string name="invalidPassword">"Password should be at least 6 characters"</string>
+    <string name ="successfullActivation" >"Activated question successfully"</string>
+    <string name = "regFail">"Registration failed, please try again!"</string>
+    <string name = "emptyField">"Empty field"</string>
+    <string name = "choseaButton">"You must chose a button!"</string>
+    <string name= "answerSaved">"Your answer was saved successfully"</string>
+    <string name="failedReadingValue">"Failed to read value."</string>
+    <string name = "noActiveQuestion">"This group does not have any active questions!"</string>
+    <string name = "joinSuccessful">"Join Successful"</string>
+    <string name = "invalidGroupId">"Invalid Group Id"</string>
+    <string name = "Groups">"Groups"</string>
+    <string name="addQuestion">Add question</string>
+    <string name="addGroup">"Add group"</string>
+    <string name="send">"Add group"</string>
+    <string name="seeAllResponses">"see all responses"</string>
+    <string name = "back">"BACK"</string>
+    <string name ="GroupId">"Group Id"</string>
+    <string name="addnewGroup">"Add new group"</string>
+    <string name="joingroup">"join group"</string>
+    <string name = "responses">"Responses"</string>
+    <string name = "response">"Response: "</string>
 
+    <string name ="invalidEmailorPassword">"Invalid email or password"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

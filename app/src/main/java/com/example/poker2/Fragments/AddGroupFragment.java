@@ -76,14 +76,13 @@ public class AddGroupFragment extends Fragment implements ValueEventListener{
                 String nameOfGroup = groupName.getText().toString();
 
                 if (TextUtils.isEmpty(nameOfGroup) || questions.isEmpty()){
-                    Toast.makeText(getActivity(),"Empty field",Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(),getString(R.string.emptyField),Toast.LENGTH_SHORT);
 
                 } else {
-                    Group group = new Group(String.valueOf(groupCount),nameOfGroup, questions); // a groupCountot beallitjuk az egyes group-ok id-janak => a sorszam lesz az id
+                    Group group = new Group(String.valueOf(groupCount),nameOfGroup, questions); // setting groupCount variable as the id of the groups
 
-                    //adding the created group to the Database
                     database.child(group.getGroupId()).setValue(group);
-                    getFragmentManager().popBackStack(); // visszalepes az AdminFragmentre hogy uj groupot tudjon az admin letrehozni
+                    getFragmentManager().popBackStack(); // goes back to AdminFragment to create a new group
                 }
             }
         });

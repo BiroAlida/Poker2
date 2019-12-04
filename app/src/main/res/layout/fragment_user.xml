@@ -16,7 +16,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:inputType="text|number"
-        android:hint="Group Id" />
+        android:hint="@string/GroupId" />
 
     <Button
         android:id="@+id/button_joinGroup"
@@ -24,6 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:layout_marginLeft="10dp"
-        android:text="join group" />
+        android:text="@string/joingroup" />
 
 </FrameLayout>

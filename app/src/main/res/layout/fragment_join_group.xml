@@ -65,7 +65,7 @@
         android:layout_marginTop="200dp"
         android:layout_gravity="left"
         android:layout_marginLeft="30dp"
-        android:text="send" />
+        android:text="@string/send" />
 
     <Button
         android:id="@+id/button_evaluation"
@@ -74,7 +74,7 @@
         android:layout_marginTop="200dp"
         android:layout_gravity="right"
         android:layout_marginRight="30dp"
-        android:text="see all responses" />
+        android:text="@string/seeAllResponses" />
 
     <Button
         android:id="@+id/button_goBack"

@@ -10,7 +10,7 @@
         android:id="@+id/Title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Add new Group"
+        android:text="@string/addnewGroup"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
         android:textSize="30sp"/>
@@ -34,7 +34,7 @@
         android:layout_below="@+id/editText_groupName"
         android:layout_marginTop="80dp"
         android:layout_marginLeft="10dp"
-        android:text="Add Question" />
+        android:text="@string/addQuestion" />
 
     <LinearLayout
         android:id="@+id/questionContainer"
@@ -51,7 +51,7 @@
         android:id="@+id/button_addGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add group"
+        android:text="@string/addGroup"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/button_addQuestion"
         android:layout_marginTop="200dp"

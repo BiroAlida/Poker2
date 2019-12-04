@@ -66,6 +66,8 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
 
     }
 
+    // based on what this functions return we can decide if the user is admin or not
+
     public void readCurrentUserData(final FirebaseCallback callback) {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -77,8 +79,8 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        User u = dataSnapshot.child(currentUserId).getValue(User.class); // megkeressuk azt a usert az adatbazisbol akinek az id-ja megegyezik az eppen lekert userId-javal (currentuser id-javal)
-                        callback.onCallback(u); // adding our user to our firebase callback
+                        User u = dataSnapshot.child(currentUserId).getValue(User.class);
+                        callback.onCallback(u);
 
                     }
                     @Override
@@ -98,7 +100,7 @@ public class GroupActivity extends AppCompatActivity implements AdminFragment.On
     }
 
 
-    public interface FirebaseCallback{  // ez szol a tobbi resznek h megvan a user es => csak akkor nezi meg a typet ha megvan hogy ki a bejelntkezett user (a user nullobjectkent vetelenek elkerulese)
+    public interface FirebaseCallback{
         void onCallback(User user);   // custom callback that waits for the data
     }
 

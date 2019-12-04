@@ -32,7 +32,7 @@ public class ViewOthersResponsesAdapter extends RecyclerView.Adapter<ViewOthersR
     @NonNull
     @Override
     public ViewOthersResponsesAdapter.ViewOthersResponsesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //return new ViewOthersResponsesViewHolder(LayoutInflater.from(context).inflate(R.layout.view_responses,parent,false));
+
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.view_responses, parent,false);
         ViewOthersResponsesAdapter.ViewOthersResponsesViewHolder viewHolder = new ViewOthersResponsesAdapter.ViewOthersResponsesViewHolder(listItem);

@@ -65,7 +65,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                     String ids = ds.child("groupId").getValue(String.class); // putting all of the group ids into the grpids ArrayList
                     grpIds.add(ids);
                 }
-                Log.d("LIST",grpIds.toString());
+
             }
 
             @Override
@@ -95,7 +95,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
             if(grpIds.contains(groupinput)) // if the users input of the group id is in the ArrayList then he can join the group
             {
 
-                Toast.makeText(getContext(),"Join Successful",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),getString(R.string.joinSuccessful),Toast.LENGTH_LONG).show();
 
                 // passing the groupinput to the JoinGroupFragment
                 Bundle bundle=new Bundle();
@@ -109,7 +109,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
             else {
 
-                Toast.makeText(getContext(),"Invalid Group Id",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),getString(R.string.invalidGroupId),Toast.LENGTH_LONG).show();
             }
 
         }

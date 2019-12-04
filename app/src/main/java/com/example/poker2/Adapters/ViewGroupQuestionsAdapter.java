@@ -42,7 +42,6 @@ public class ViewGroupQuestionsAdapter extends RecyclerView.Adapter<ViewGroupQue
     @Override
     public int getItemCount() {
         return questions.size();
-        //return questions == null ? 0 : questions.size();
     }
 
     public class QuestionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

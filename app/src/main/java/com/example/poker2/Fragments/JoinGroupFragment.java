@@ -85,7 +85,7 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
                 }
                 else{
 
-                    tv.setText("This group does not have any active questions!");
+                    tv.setText(getString(R.string.noActiveQuestion));
                     btn1.setVisibility(View.INVISIBLE);
                     btn2.setVisibility(View.INVISIBLE);
                     btn3.setVisibility(View.INVISIBLE);
@@ -121,14 +121,14 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
             public void onClick(View v) {
                 if(chosenButton == 0)
                 {
-                    Toast.makeText(getContext(), "You must chose a button!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.choseaButton), Toast.LENGTH_SHORT).show();
                 }
 
                 else{
 
                     responsesReference = FirebaseDatabase.getInstance().getReference("responses");
                     responsesReference.child(groupId).child(questionObject.getQuestionId()).child(username).setValue(response);
-                    Toast.makeText(getContext(), "Your answer was saved successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.answerSaved), Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -163,11 +163,10 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // searching for the question that is active and its groupid is the one given by the user
 
-                    Log.e("post", postSnapshot.toString());
                     if(postSnapshot.child("groupId").getValue(String.class).equals(groupId) &&
                      postSnapshot.child("isActive").getValue(Boolean.class) == true) // checking if the current question has the given groupid and if its active
                     {
-                        Log.e("eredmeny", postSnapshot.getKey());
+
                         questionObject = postSnapshot.getValue(Question.class);
                     }
 
@@ -179,7 +178,7 @@ public class JoinGroupFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onCancelled(DatabaseError error) {
 
-                Log.e("TAG", "Failed to read value.", error.toException());
+                Log.e("TAG", getString(R.string.failedReadingValue), error.toException());
             }
         });
 

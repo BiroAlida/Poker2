@@ -132,13 +132,13 @@ public class AdminFragment extends Fragment implements View.OnClickListener, Gro
 
     @Override
     public void onClick(View v) {
-        ((GroupActivity)getActivity()).replaceFragment(new AddGroupFragment()); // after clicking the addGroup button the fragment changes inside the GroupActivity from AdminFragment to AddGroupFragment
+        ((GroupActivity)getActivity()).replaceFragment(new AddGroupFragment());
     }
 
     @Override
     public void onGroupClick(int position) {
 
-        showDialog(list.get(position)); // atadodik mindegyik viewholder pozicioja (vagyis minden groupé a recycler viewbol)
+        showDialog(list.get(position));
     }
 
     public interface OnFragmentInteractionListener {

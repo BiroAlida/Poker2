@@ -41,8 +41,6 @@ import static java.util.Objects.isNull;
 public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQuestionsAdapter.OnGroupQuestionsListener {
 
     private View view;
-    private Button addGroup;
-    private DatabaseReference reference;
     private RecyclerView rw;
     private ArrayList<String> questionList = new ArrayList<>();
     private ArrayList<Question> list = new ArrayList<>();
@@ -51,7 +49,6 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
     boolean active = true, inactive = false;
     private DatabaseReference questionRef = FirebaseDatabase.getInstance().getReference("questions");
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<String> listQuestion = new ArrayList<>();
 
 
     public ViewGroupQuestionsFragment() {
@@ -65,18 +62,14 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
 
         groupId = getArguments().getString("groupId");
 
-        listingGroupsInRecyclerView(new FirebaseCallback() {
-            @Override
-            public void onCallback(ArrayList<Question> list) {
 
-            }
-        });
+      listingGroupsInRecyclerView();
 
 
         return view;
     }
 
-    public void listingGroupsInRecyclerView(final FirebaseCallback callback)
+    public void listingGroupsInRecyclerView()
     {
         rw = view.findViewById(R.id.groupQuestions_recyclerView);
         layoutManager = new LinearLayoutManager(getContext());
@@ -90,65 +83,32 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 list.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) { // searching for the question that is active and its groupid is the one given by the user
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
 
-                    if(postSnapshot.child("groupId").getValue().equals(groupId)) // checking if the current question has the given groupid and if its active
+                    if(postSnapshot.child("groupId").getValue().equals(groupId))
                     {
-                        Question question = postSnapshot.getValue(Question.class); // putting the searched question object into the questionObject variable
+                        Question question = postSnapshot.getValue(Question.class);
                         list.add(question);
                         adapter.notifyDataSetChanged();
 
                     }
                 }
 
-                callback.onCallback(list);
-
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
 
-                Log.e("TAG", "Failed to read value.", error.toException());
             }
         });
 
     }
 
-    /*public void readQuestionData(final FirebaseCallbackQuestions callback)
-    {
-        FirebaseDatabase.getInstance().getReference("questions").getRef().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-
-                    if(postSnapshot.child("groupId").getValue().equals(groupId) && postSnapshot.child("isActive").getValue().equals(String.valueOf(active))) // checking if the current question has the given groupid and if its active
-                    {
-
-                        questionObject = postSnapshot.getValue(Question.class);
-                        listQuestion.add(questionObject.getQuestion());
-
-                    }
-
-                }
-
-                callback.onCallback(questionObject);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }*/
-
+    // shows a dialogbox to activate a question
     public void showDialog(final Question question) {
         CharSequence[] items;
 
-        //items = new String[]{"Activate question", "Dezactivate question"};
         items = new String[]{"Activate question"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -165,9 +125,9 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
 
                                             if(postSnapshot.child("questionId").getValue(String.class).equals(question.getQuestionId())) // checking if the current question has the given groupid and if its active
                                             {
-                                                String questionId = question.getQuestionId();
+
                                                 questionRef.child(postSnapshot.getKey()).child("isActive").setValue(active);
-                                                Toast.makeText(getContext(), "Activated question successfully", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), getString(R.string.successfullActivation), Toast.LENGTH_SHORT).show();
 
                                             }
                                             else{
@@ -189,23 +149,14 @@ public class ViewGroupQuestionsFragment extends Fragment implements ViewGroupQue
         dialog.show();
     }
 
-
     @Override
     public void onGroupQuestionClick(int position) {
         showDialog(list.get(position));
     }
-
-    private interface FirebaseCallback{
-        void onCallback(ArrayList<Question> list );
-    }
-
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    private interface FirebaseCallbackQuestions{
-        void onCallback(Question questionObject );
-    }
 }
